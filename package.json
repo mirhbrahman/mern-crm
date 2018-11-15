@@ -1,0 +1,11 @@
+{
+  "name": "crm",
+  "version": "1.0.0",
+  "description": "Customer Relationship Management",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "MIR HB RAHMAN",
+  "license": "ISC"
+}
