@@ -1,0 +1,67 @@
+.form-group.no-border .input-group-prepend .input-group-text, .input-group.no-border .input-group-prepend .input-group-text {
+    /*background-color: red;*/
+    border: none;
+    border-radius: 0;
+}
+.form-group.no-border .input-group-text, .input-group.no-border .input-group-text {
+    padding: 11px 11px 11px 11px;
+}
+
+.input-group .form-control:last-child, .input-group-text:last-child, .input-group-btn:last-child>.dropdown-toggle, .input-group-btn:first-child>.btn:not(:first-child) {
+    border-left: 0 none;
+    background-color: white;
+}
+.form-control:focus {
+  box-shadow: none;
+  outline: 0 !important;
+  color: #2c2c2c;
+  background-color: white;
+}
+
+.form-group.no-border.input-lg .input-group-text, .input-group.no-border.input-lg .input-group-text {
+    padding: 15px 15 15px 15px !important;
+}
+
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+h4, .h4 {
+    font-size: 1.5em;
+    line-height: 1.45em;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.margin-0{
+  margin: 0;
+}
+.padding-0{
+  padding: 0;
+}
+
+.nav-pills .nav-item .nav-link {
+     padding: 4px 10px; 
+    background-color: rgba(222, 222, 222, 0.3);
+    min-width: 100px;
+    font-weight: 400;
+    text-align: center;
+    color: #444;
+}
+.mt-4, .my-4 {
+    margin-top: 1.7rem!important;
+}
+
+.max-width-100{
+  max-width: 100%;
+}
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+    min-height: 53px;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+}
