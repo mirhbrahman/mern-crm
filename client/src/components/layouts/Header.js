@@ -1,15 +1,24 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { logoutUser } from "../../actions/authActions";
+import { clearCurrentProfile } from "../../actions/profileActions";
 
 class Header extends Component {
+  onLogoutClick(e) {
+    e.preventDefault();
+    this.props.logoutUser();
+    this.props.clearCurrentProfile();
+  }
   render() {
     return (
       <div>
         <nav className="navbar navbar-expand-lg bg-info">
           <div className="container margin-0 max-width-100">
             <div className="navbar-translate">
-              <a className="navbar-brand" href="#pablo">
+              <Link className="navbar-brand" to="#pablo">
                 CRM
-              </a>
+              </Link>
               <button
                 className="navbar-toggler"
                 type="button"
@@ -27,28 +36,28 @@ class Header extends Component {
             <div className="collapse navbar-collapse" id="example-navbar-info">
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <a className="nav-link" href="leads.html">
+                  <Link className="nav-link" to="leads.html">
                     <p>Leads</p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="contacts.html">
+                  <Link className="nav-link" to="contacts.html">
                     <p>Contacts</p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="opporturity.html">
+                  <Link className="nav-link" to="opporturity.html">
                     <p>Opportunity</p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="proposal.html">
+                  <Link className="nav-link" to="proposal.html">
                     <p>Proposal</p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item dropdown">
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="nav-link dropdown-toggle"
                     id="navbarDropdownMenuLink"
                     data-toggle="dropdown"
@@ -57,29 +66,35 @@ class Header extends Component {
                       className="now-ui-icons ui-1_settings-gear-63"
                       aria-hidden="true"
                     />
-                  </a>
+                  </Link>
                   <div
                     className="dropdown-menu dropdown-menu-right"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
-                    <a className="dropdown-header">Dropdown header</a>
-                    <a className="dropdown-item" href="#">
+                    <Link to="" className="dropdown-header">
+                      Dropdown header
+                    </Link>
+                    <Link className="dropdown-item" to="#">
                       Action
-                    </a>
-                    <a className="dropdown-item" href="#">
+                    </Link>
+                    <Link className="dropdown-item" to="#">
                       Another action
-                    </a>
-                    <a className="dropdown-item" href="#">
+                    </Link>
+                    <Link className="dropdown-item" to="#">
                       Something else here
-                    </a>
+                    </Link>
                     <div className="divider" />
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="#">
                       Separated link
-                    </a>
+                    </Link>
                     <div className="divider" />
-                    <a className="dropdown-item" href="#">
-                      One more separated link
-                    </a>
+                    <Link
+                      onClick={this.onLogoutClick.bind(this)}
+                      className="dropdown-item text-danger"
+                      to="#"
+                    >
+                      Logout
+                    </Link>
                   </div>
                 </li>
               </ul>
@@ -91,4 +106,7 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default connect(
+  null,
+  { logoutUser, clearCurrentProfile }
+)(Header);

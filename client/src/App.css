@@ -77,3 +77,23 @@ h4,
 .page-header-back-image {
   background-image: url("img/bg11.jpg");
 }
+
+.footer {
+  padding: 24px 0;
+  opacity: 1;
+  background: #211e1e;
+  color: white;
+}
+
+.is-invalid {
+  /* border: 1px solid red !important; */
+  background: white;
+}
+
+.form-group.no-border .form-control,
+.form-group.no-border .form-control + .input-group-text,
+.input-group.no-border .form-control,
+.input-group.no-border .form-control + .input-group-text {
+  background-color: rgb(255, 255, 255);
+  border: medium none;
+}

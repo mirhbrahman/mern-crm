@@ -11,8 +11,8 @@ class AuthNavbar extends Component {
         >
           <div className="container">
             <div className="dropdown button-dropdown">
-              <a
-                href="#pablo"
+              <Link
+                to="#pablo"
                 className="dropdown-toggle"
                 id="navbarDropdown"
                 data-toggle="dropdown"
@@ -20,27 +20,7 @@ class AuthNavbar extends Component {
                 <span className="button-bar" />
                 <span className="button-bar" />
                 <span className="button-bar" />
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-header">Dropdown header</a>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-                <div className="dropdown-divider" />
-                <a className="dropdown-item" href="#">
-                  Separated link
-                </a>
-                <div className="dropdown-divider" />
-                <a className="dropdown-item" href="#">
-                  One more separated link
-                </a>
-              </div>
+              </Link>
             </div>
             <div className="navbar-translate">
               <Link

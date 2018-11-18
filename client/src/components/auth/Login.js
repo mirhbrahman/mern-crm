@@ -1,7 +1,45 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import classnames from "classnames";
+import { loginUser } from "../../actions/authActions";
 
 class Login extends Component {
+  state = {
+    email: "",
+    password: "",
+    errors: {}
+  };
+
+  
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
+  componentWillReceiveProps(nextProps, nextState) {
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+  onSubmit(e) {
+    e.preventDefault();
+    const { email, password } = this.state;
+    const userData = {
+      email,
+      password
+    };
+    this.props.loginUser(userData);
+  }
   render() {
+    const { email, password, errors } = this.state;
     return (
       <div>
         <div className="page-header">
@@ -10,7 +48,7 @@ class Login extends Component {
             <div className="container">
               <div className="col-md-4 ml-auto mr-auto">
                 <div className="card card-login card-plain">
-                  <form action="">
+                  <form onSubmit={this.onSubmit.bind(this)}>
                     <div className="card-body">
                       <div className="input-group no-border">
                         <div className="input-group-prepend">
@@ -19,10 +57,18 @@ class Login extends Component {
                           </span>
                         </div>
                         <input
+                          name="email"
                           type="email"
-                          className="form-control"
+                          className={classnames("form-control", {
+                            "is-invalid": errors.email
+                          })}
                           placeholder="Email"
+                          value={email}
+                          onChange={this.onChange.bind(this)}
                         />
+                        {errors.email && (
+                          <div className="invalid-feedback">{errors.email}</div>
+                        )}
                       </div>
                       <div className="input-group no-border">
                         <div className="input-group-prepend">
@@ -31,19 +77,28 @@ class Login extends Component {
                           </span>
                         </div>
                         <input
+                          name="password"
                           type="password"
+                          className={classnames("form-control", {
+                            "is-invalid": errors.password
+                          })}
                           placeholder="Password"
-                          className="form-control"
+                          value={password}
+                          onChange={this.onChange.bind(this)}
                         />
+                        {errors.password && (
+                          <div className="invalid-feedback">
+                            {errors.password}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="card-footer text-center">
-                      <a
-                        href="#pablo"
+                      <input
                         className="btn btn-primary  btn-lg btn-block"
-                      >
-                        Login
-                      </a>
+                        type="submit"
+                        value="Login"
+                      />
                       <div className="pull-left">
                         <h6>
                           <a href="/register" className="link">
@@ -70,4 +125,12 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);
