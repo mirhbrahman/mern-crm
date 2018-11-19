@@ -1,8 +1,61 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import classnames from "classnames";
+import { getOrganizations } from "../../actions/organizationAction";
 
-class ViewLead extends Component {
+class Organization extends Component {
+  state = {
+    currently_selected: null
+  };
+  componentDidMount() {
+    this.props.getOrganizations();
+  }
+
+  onRowSelect(id, e) {
+    this.setState({ currently_selected: id });
+  }
+
   render() {
+    const { orgs } = this.props.orgs;
+    let content;
+    if (orgs === null) {
+      content = (
+        <div className="col-sm-12 float-left padding-0">
+          <div className="col-sm-12 text-center text-danger" role="alert">
+            <p>You have no organization</p> <br />
+          </div>
+        </div>
+      );
+    } else {
+      content = (
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orgs.map(org => (
+              <tr
+                className={classnames("test ", {
+                  "alert alert-info": this.state.currently_selected === org._id
+                })}
+                style={{ cursor: "pointer" }}
+                key={org._id}
+                onClick={this.onRowSelect.bind(this, org._id)}
+              >
+                <td>{org.name}</td>
+                <td>{org.email}</td>
+                <td>{org.phone}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      );
+    }
     return (
       <div>
         <div className="col-sm-12 row margin-0">
@@ -20,36 +73,8 @@ class ViewLead extends Component {
                     Add Organizations
                   </Link>
                 </h4>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">First</th>
-                      <th scope="col">Last</th>
-                      <th scope="col">Handle</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>Otto</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>Thornton</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Larry</td>
-                      <td>the Bird</td>
-                      <td>@twitter</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <br />
+                {content}
               </div>
             </div>
           </div>
@@ -78,4 +103,11 @@ class ViewLead extends Component {
   }
 }
 
-export default ViewLead;
+const mapStateToProps = state => ({
+  orgs: state.orgs
+});
+
+export default connect(
+  mapStateToProps,
+  { getOrganizations }
+)(Organization);

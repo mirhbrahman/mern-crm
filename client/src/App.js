@@ -15,7 +15,7 @@ import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoute from "./components/customRoute/PrivateRoute";
 import HomeRoute from "./components/customRoute/HomeRoute";
-import ViewOrganization from "./components/organization/ViewOrganization";
+import Organization from "./components/organization/Organization";
 import ViewLead from "./components/lead/ViewLead";
 import AddLead from "./components/lead/AddLead";
 
@@ -55,7 +55,7 @@ class App extends Component {
                 <PrivateRoute
                   exact
                   path="/organizations"
-                  component={ViewOrganization}
+                  component={Organization}
                 />
               </Switch>
               <Switch>
