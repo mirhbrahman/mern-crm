@@ -6,7 +6,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 // Custom style
 import "./App.css";
-
+// Store
+import store from "./store";
 // Components
 import Landing from "./components/layouts/Landing";
 import Register from "./components/auth/Register";
@@ -14,9 +15,9 @@ import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoute from "./components/customRoute/PrivateRoute";
 import HomeRoute from "./components/customRoute/HomeRoute";
-// Store
-import store from "./store";
-import Header from "./components/layouts/Header";
+import ViewOrganization from "./components/organization/ViewOrganization";
+import ViewLead from "./components/lead/ViewLead";
+import AddLead from "./components/lead/AddLead";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -49,6 +50,19 @@ class App extends Component {
             <div className="index-page sidebar-collapse">
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/organizations"
+                  component={ViewOrganization}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/leads" component={ViewLead} />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/add-leads" component={AddLead} />
               </Switch>
             </div>
           </div>

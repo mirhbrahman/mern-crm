@@ -16,7 +16,7 @@ class Header extends Component {
         <nav className="navbar navbar-expand-lg bg-info">
           <div className="container margin-0 max-width-100">
             <div className="navbar-translate">
-              <Link className="navbar-brand" to="#pablo">
+              <Link className="navbar-brand" to="/dashboard">
                 CRM
               </Link>
               <button
@@ -36,7 +36,12 @@ class Header extends Component {
             <div className="collapse navbar-collapse" id="example-navbar-info">
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <Link className="nav-link" to="leads.html">
+                  <Link className="nav-link" to="/organizations">
+                    <p>Organization</p>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/leads">
                     <p>Leads</p>
                   </Link>
                 </li>
@@ -71,21 +76,8 @@ class Header extends Component {
                     className="dropdown-menu dropdown-menu-right"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
-                    <Link to="" className="dropdown-header">
-                      Dropdown header
-                    </Link>
                     <Link className="dropdown-item" to="#">
-                      Action
-                    </Link>
-                    <Link className="dropdown-item" to="#">
-                      Another action
-                    </Link>
-                    <Link className="dropdown-item" to="#">
-                      Something else here
-                    </Link>
-                    <div className="divider" />
-                    <Link className="dropdown-item" to="#">
-                      Separated link
+                      Account
                     </Link>
                     <div className="divider" />
                     <Link

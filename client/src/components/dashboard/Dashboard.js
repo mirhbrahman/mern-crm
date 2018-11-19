@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getProfile } from "../../actions/profileActions";
 import Spinner from "../common/Spinner";
+import ProfileInfo from "../profile/ProfileInfo";
 
 class Dashboard extends Component {
   state = {
@@ -17,13 +18,13 @@ class Dashboard extends Component {
 
   render() {
     const { loading, profile } = this.props.profile;
-    let dashtitle;
+    let dashContent;
     if (profile === null && loading === true) {
-      dashtitle = <Spinner />;
+      dashContent = <Spinner />;
     } else {
-      dashtitle = <h1>Dashboard {this.state.profile.name}</h1>;
+      dashContent = <ProfileInfo profile={this.state.profile} />;
     }
-    return <div>{dashtitle}</div>;
+    return <div>{dashContent}</div>;
   }
 }
 
