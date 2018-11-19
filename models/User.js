@@ -27,17 +27,12 @@ const UserSchema = new Schema({
     minlength: 6,
     maxlength: 20
   },
-  fax: {
-    type: String,
-    minlength: 6,
-    maxlength: 20
-  },
   website: {
     type: String,
     maxlength: 1024
   },
-  permanentAddress: String,
-  othersAddress: String,
+  primaryAddress: String,
+  secondaryAddress: String,
   verificationToken: String,
   isVerified: {
     type: Boolean,
@@ -51,6 +46,10 @@ const UserSchema = new Schema({
   userLevel: {
     type: Number,
     required: true
+  },
+  created_at: {
+    type: Date,
+    default: Date.now()
   }
 });
 
