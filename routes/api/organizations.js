@@ -17,6 +17,13 @@ router.post("/", auth, (req, res) => {
   const { errors } = validateOrganizationInput(req.body);
   if (errors) return res.status(400).send(errors);
 
+  // Check email already exist or not
+  Organization.findOne({ email: req.body.email }).then(orgs => {
+    if (orgs) {
+      return res.status(400).json({ email: "Email already exist" });
+    }
+  });
+
   // Create organization
   const newOrg = new Organization(
     _.pick(req.body, [
@@ -35,6 +42,7 @@ router.post("/", auth, (req, res) => {
     .save()
     .then(user => res.status(201).json(user))
     .catch(err => {
+      console.log(err);
       return res.status(400).json({ msg: "Something error" });
     });
 });
@@ -44,7 +52,7 @@ router.post("/", auth, (req, res) => {
 // @access Private
 router.get("/:id", auth, (req, res) => {
   const id = req.params.id;
-  Organization.find({ _id: id, company: req.user.id })
+  Organization.findOne({ _id: id, company: req.user.id })
     .then(org => {
       res.json(org);
     })

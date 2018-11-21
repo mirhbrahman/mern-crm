@@ -16,11 +16,11 @@ module.exports = data => {
       .required()
       .min(5)
       .max(50),
-    website: Joi.string(),
+    website: Joi.string().allow(null, ""),
     primaryAddress: Joi.string()
       .required()
       .min(2),
-    secondaryAddress: Joi.string()
+    secondaryAddress: Joi.string().allow(null, "")
   };
 
   const { error } = Joi.validate(data, schema, { abortEarly: false });

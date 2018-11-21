@@ -25,7 +25,7 @@ router.post("/register", (req, res) => {
   // Check user already exist or not
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
-      return res.status(400).json({ email: "Email already exits" });
+      return res.status(400).json({ email: "Email already exist" });
     } else {
       // Create user
       const newUser = new User(_.pick(req.body, ["name", "email", "password"]));
