@@ -42,12 +42,11 @@ router.post("/", auth, (req, res) => {
     .save()
     .then(user => res.status(201).json(user))
     .catch(err => {
-      console.log(err);
       return res.status(400).json({ msg: "Something error" });
     });
 });
 
-// @route  GET /api/users/organizations
+// @route  GET /api/users/organizations/:id
 // @des    Get organization by id
 // @access Private
 router.get("/:id", auth, (req, res) => {
@@ -74,7 +73,7 @@ router.get("/", auth, (req, res) => {
     });
 });
 
-// @route  PUT /api/users/organizations
+// @route  PUT /api/users/organizations/:id
 // @des    Update organization by id
 // @access Private
 router.put("/:id", auth, (req, res) => {
@@ -82,6 +81,15 @@ router.put("/:id", auth, (req, res) => {
   if (errors) return res.status(400).send(errors);
 
   const id = req.params.id;
+
+  // Check email already exist or not
+  Contact.findOne({ email: req.body.email })
+    .then(orgs => {
+      if (orgs._id !== id) {
+        res.status(400).json({ email: "Email already exist" });
+      }
+    })
+    .catch(err => res.send({ msg: "Try again" }));
 
   // Set update data
   const updateOrganisation = {};
@@ -116,7 +124,7 @@ router.put("/:id", auth, (req, res) => {
     });
 });
 
-// @route  DELETE /api/users/organizations
+// @route  DELETE /api/users/organizations/:id
 // @des    Delete organization by id
 // @access Private
 router.delete("/:id", auth, (req, res) => {

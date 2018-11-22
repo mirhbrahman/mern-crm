@@ -28,9 +28,11 @@ require("./config/passport")(passport);
 // Load routes
 const users = require("./routes/api/users");
 const organizations = require("./routes/api/organizations");
+const contacts = require("./routes/api/contacts");
 // Use routes
 app.use("/api/users/", users);
 app.use("/api/organizations/", organizations);
+app.use("/api/contacts/", contacts);
 
 // Port
 const port = process.env.PORT || 5000;
