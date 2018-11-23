@@ -18,8 +18,9 @@ import HomeRoute from "./components/customRoute/HomeRoute";
 import Organization from "./components/organization/Organization";
 import AddOrganization from "./components/organization/AddOrganization";
 import EditOrganization from "./components/organization/EditOrganization";
-import ViewLead from "./components/lead/ViewLead";
+import Lead from "./components/lead/Lead";
 import AddLead from "./components/lead/AddLead";
+import EditLead from "./components/lead/EditLead";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -75,10 +76,17 @@ class App extends Component {
                 />
               </Switch>
               <Switch>
-                <PrivateRoute exact path="/leads" component={ViewLead} />
+                <PrivateRoute exact path="/leads" component={Lead} />
               </Switch>
               <Switch>
                 <PrivateRoute exact path="/add-leads" component={AddLead} />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/edit-leads/:id"
+                  component={EditLead}
+                />
               </Switch>
             </div>
           </div>

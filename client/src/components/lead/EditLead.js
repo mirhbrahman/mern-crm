@@ -2,22 +2,51 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../common/TextFieldGroup";
-import { addOrganization } from "../../actions/organizationActions";
+import { getLead, updateLead } from "../../actions/leadActions";
+import { getOrganizations } from "../../actions/organizationActions";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 
-class AddOrganization extends Component {
+class EditLead extends Component {
   state = {
+    organization: "",
     name: "",
     email: "",
     phone: "",
     website: "",
+    title: "",
+    department: "",
     primaryAddress: "",
     secondaryAddress: "",
-    errors: {}
+    status: "",
+    role: "",
+    errors: {},
+    orgs: null
   };
 
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    this.props.getOrganizations();
+    this.props.getLead(id);
+  }
+
   componentWillReceiveProps(nextProps, nextState) {
-    this.setState({ errors: nextProps.errors });
+    this.setState({ errors: nextProps.errors, orgs: nextProps.orgs.orgs });
+    if (nextProps.leads.lead) {
+      const { lead } = nextProps.leads;
+      this.setState({
+        organization: lead.organization._id,
+        name: lead.name,
+        email: lead.email,
+        phone: lead.phone,
+        website: lead.website,
+        title: lead.title,
+        department: lead.department,
+        primaryAddress: lead.primaryAddress,
+        secondaryAddress: lead.secondaryAddress,
+        status: lead.status,
+        role: lead.role
+      });
+    }
   }
 
   onChange(e) {
@@ -27,37 +56,54 @@ class AddOrganization extends Component {
   onSubmit(e) {
     e.preventDefault();
     const {
+      organization,
       name,
       email,
       phone,
       website,
+      title,
+      department,
       primaryAddress,
-      secondaryAddress
+      secondaryAddress,
+      status,
+      role
     } = this.state;
 
-    // Create new org
-    const newOrg = {
+    // Create new lead
+    const updateLead = {
+      organization,
       name,
       email,
       phone,
       website,
+      title,
+      department,
       primaryAddress,
-      secondaryAddress
+      secondaryAddress,
+      status,
+      role
     };
 
-    this.props.addOrganization(newOrg, this.props.history);
+    const { id } = this.props.match.params;
+
+    this.props.updateLead(id, updateLead, this.props.history);
   }
 
   render() {
     const {
+      organization,
       name,
       email,
       phone,
       website,
+      title,
+      department,
       primaryAddress,
       secondaryAddress,
       errors
     } = this.state;
+
+    const { orgs } = this.state;
     return (
       <div>
         <div className="container">
@@ -65,7 +111,7 @@ class AddOrganization extends Component {
             <div className="col-sm-12">
               <div className="card">
                 <div className="card-body">
-                  <h4 className="card-title text-info">ADD ORGANIZATION</h4>
+                  <h4 className="card-title text-info">UPDATE LEAD</h4>
                   <form onSubmit={this.onSubmit.bind(this)}>
                     <div className="row">
                       <div className="form-group col-sm-6">
@@ -99,6 +145,48 @@ class AddOrganization extends Component {
                       </div>
 
                       <div className="form-group col-sm-6">
+                        <label htmlFor="">Organization</label>
+                        <select
+                          className="form-control"
+                          name="organization"
+                          value={organization}
+                          onChange={this.onChange.bind(this)}
+                        >
+                          <option value="">Please Select...</option>
+
+                          {orgs &&
+                            orgs.map(org => (
+                              <option
+                                key={org._id}
+                                value={org._id}
+                                selected={org._id === organization}
+                              >
+                                {org.name}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+
+                      <div className="form-group col-sm-6">
+                        <TextFieldGroup
+                          label="Title"
+                          name="title"
+                          value={title}
+                          onChange={this.onChange.bind(this)}
+                          error={errors.title}
+                        />
+                      </div>
+                      <div className="form-group col-sm-6">
+                        <TextFieldGroup
+                          label="Department"
+                          name="department"
+                          value={department}
+                          onChange={this.onChange.bind(this)}
+                          error={errors.department}
+                        />
+                      </div>
+
+                      <div className="form-group col-sm-12">
                         <TextFieldGroup
                           label="Website"
                           name="website"
@@ -129,7 +217,7 @@ class AddOrganization extends Component {
 
                       <div className="col-sm-12">
                         <button type="submit" className="btn btn-primary">
-                          Submit
+                          Update
                         </button>
                       </div>
                     </div>
@@ -145,10 +233,12 @@ class AddOrganization extends Component {
 }
 
 const mapStateToProps = state => ({
+  orgs: state.orgs,
+  leads: state.leads,
   errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { addOrganization }
-)(withRouter(AddOrganization));
+  { getLead, getOrganizations, updateLead }
+)(withRouter(EditLead));

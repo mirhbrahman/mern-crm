@@ -13,3 +13,10 @@ export const GET_ORGANIZATION = "GET_ORGANIZATION";
 export const ADD_ORGANIZATION = "ADD_ORGANIZATION";
 export const UPDATE_ORGANIZATION = "UPDATE_ORGANIZATION";
 export const DELETE_ORGANIZATION = "DELETE_ORGANIZATION";
+// Lead
+export const LEAD_LOADING = "LEAD_LOADING";
+export const GET_LEADS = "GET_LEADS";
+export const GET_LEAD = "GET_LEAD";
+export const ADD_LEAD = "ADD_LEAD";
+export const UPDATE_LEAD = "UPDATE_LEAD";
+export const DELETE_LEAD = "DELETE_LEAD";

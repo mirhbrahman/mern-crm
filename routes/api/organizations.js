@@ -82,14 +82,14 @@ router.put("/:id", auth, (req, res) => {
 
   const id = req.params.id;
 
-  // Check email already exist or not
-  Contact.findOne({ email: req.body.email })
-    .then(orgs => {
-      if (orgs._id !== id) {
-        res.status(400).json({ email: "Email already exist" });
-      }
-    })
-    .catch(err => res.send({ msg: "Try again" }));
+  // // Check email already exist or not
+  // Contact.findOne({ email: req.body.email })
+  //   .then(orgs => {
+  //     if (orgs._id !== id) {
+  //       res.status(400).json({ email: "Email already exist" });
+  //     }
+  //   })
+  //   .catch(err => res.send({ msg: "Try again" }));
 
   // Set update data
   const updateOrganisation = {};

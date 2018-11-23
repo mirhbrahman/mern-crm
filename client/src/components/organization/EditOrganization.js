@@ -5,7 +5,7 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import {
   getOrganization,
   updateOrganization
-} from "../../actions/organizationAction";
+} from "../../actions/organizationActions";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 
 class EditOrganization extends Component {

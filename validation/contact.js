@@ -24,8 +24,8 @@ module.exports = data => {
       .required()
       .min(2),
     secondaryAddress: Joi.string().allow(null, ""),
-    status: Joi.number().required(),
-    role: Joi.number().required(),
+    status: Joi.boolean().required(),
+    role: Joi.boolean().required(),
     leadStatus: Joi.number().allow(null, "")
   };
 

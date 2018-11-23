@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
 
+const LEAD = 0;
+
 // Model
 const Contact = require("../../models/Contact");
 
@@ -52,10 +54,10 @@ router.post("/", auth, (req, res) => {
     });
 });
 
-// @route  GET /api/users/contacts/:id
+// @route  GET /api/users/contacts/contacts/:id
 // @des    Get contact by id
 // @access Private
-router.get("/:id", auth, (req, res) => {
+router.get("/contacts/:id", auth, (req, res) => {
   const id = req.params.id;
   Contact.findOne({ _id: id, company: req.user.id })
     .populate("organization", "name")
@@ -67,11 +69,40 @@ router.get("/:id", auth, (req, res) => {
     });
 });
 
-// @route  GET /api/users/contacts
+// @route  GET /api/users/contacts/leads/:id
+// @des    Get lead by id
+// @access Private
+router.get("/leads/:id", auth, (req, res) => {
+  const id = req.params.id;
+  Contact.findOne({ _id: id, company: req.user.id, role: LEAD })
+    .populate("organization", "name")
+    .then(org => {
+      res.json(org);
+    })
+    .catch(err => {
+      res.status(404).json({ errors: "Contact not found" });
+    });
+});
+
+// @route  GET /api/users/contacts/contacts
 // @des    Get all contacts for a company
 // @access Private
-router.get("/", auth, (req, res) => {
+router.get("/contacts/", auth, (req, res) => {
   Contact.find({ company: req.user.id })
+    .populate("organization", "name")
+    .then(contacts => {
+      res.json(contacts);
+    })
+    .catch(err => {
+      res.status(404).json({ errors: "Contacts not found" });
+    });
+});
+
+// @route  GET /api/users/contacts/leads
+// @des    Get all leads for a company
+// @access Private
+router.get("/leads/", auth, (req, res) => {
+  Contact.find({ company: req.user.id, role: LEAD })
     .populate("organization", "name")
     .then(contacts => {
       res.json(contacts);
@@ -90,14 +121,14 @@ router.put("/:id", auth, (req, res) => {
 
   const id = req.params.id;
 
-  // Check email already exist or not
-  Contact.findOne({ email: req.body.email })
-    .then(contacts => {
-      if (contacts._id !== id) {
-        res.status(400).json({ email: "Email already exist" });
-      }
-    })
-    .catch(err => res.send({ msg: "Try again" }));
+  // // Check email already exist or not
+  // Contact.findOne({ email: req.body.email })
+  //   .then(contacts => {
+  //     if (contacts._id !== id) {
+  //       res.status(400).json({ email: "Email already exist" });
+  //     }
+  //   })
+  //   .catch(err => res.send({ msg: "Try again" }));
 
   // Set update data
   const updateContact = {};
