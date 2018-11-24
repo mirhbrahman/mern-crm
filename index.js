@@ -29,10 +29,12 @@ require("./config/passport")(passport);
 const users = require("./routes/api/users");
 const organizations = require("./routes/api/organizations");
 const contacts = require("./routes/api/contacts");
+const opportunities = require("./routes/api/opportunities");
 // Use routes
 app.use("/api/users/", users);
 app.use("/api/organizations/", organizations);
 app.use("/api/contacts/", contacts);
+app.use("/api/opportunities/", opportunities);
 
 // Port
 const port = process.env.PORT || 5000;

@@ -10,7 +10,7 @@ const auth = require("../../middleware/auth");
 // Validation
 const validateOrganizationInput = require("../../validation/organization");
 
-// @route  POST /api/users/organizations
+// @route  POST /api/organizations
 // @des    Create a organization
 // @access Private
 router.post("/", auth, (req, res) => {
@@ -46,7 +46,7 @@ router.post("/", auth, (req, res) => {
     });
 });
 
-// @route  GET /api/users/organizations/:id
+// @route  GET /api/organizations/:id
 // @des    Get organization by id
 // @access Private
 router.get("/:id", auth, (req, res) => {
@@ -60,7 +60,7 @@ router.get("/:id", auth, (req, res) => {
     });
 });
 
-// @route  GET /api/users/organizations
+// @route  GET /api/organizations
 // @des    Get all organizations for a company
 // @access Private
 router.get("/", auth, (req, res) => {
@@ -73,7 +73,7 @@ router.get("/", auth, (req, res) => {
     });
 });
 
-// @route  PUT /api/users/organizations/:id
+// @route  PUT /api/organizations/:id
 // @des    Update organization by id
 // @access Private
 router.put("/:id", auth, (req, res) => {
@@ -124,7 +124,7 @@ router.put("/:id", auth, (req, res) => {
     });
 });
 
-// @route  DELETE /api/users/organizations/:id
+// @route  DELETE /api/organizations/:id
 // @des    Delete organization by id
 // @access Private
 router.delete("/:id", auth, (req, res) => {
