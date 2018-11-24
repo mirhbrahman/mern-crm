@@ -21,6 +21,9 @@ import EditOrganization from "./components/organization/EditOrganization";
 import Lead from "./components/lead/Lead";
 import AddLead from "./components/lead/AddLead";
 import EditLead from "./components/lead/EditLead";
+import Contact from "./components/contact/Contact";
+import AddContact from "./components/contact/AddContact";
+import EditContact from "./components/contact/EditContact";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -86,6 +89,23 @@ class App extends Component {
                   exact
                   path="/edit-leads/:id"
                   component={EditLead}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute exact path="/contacts" component={Contact} />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-contacts"
+                  component={AddContact}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/edit-contacts/:id"
+                  component={EditContact}
                 />
               </Switch>
             </div>

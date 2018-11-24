@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../common/TextFieldGroup";
-import { addLead } from "../../actions/leadActions";
+import { addContact } from "../../actions/contactActions";
 import { getOrganizations } from "../../actions/organizationActions";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 
-class AddLead extends Component {
+class AddContact extends Component {
   state = {
     organization: "",
     name: "",
@@ -19,8 +19,8 @@ class AddLead extends Component {
     secondaryAddress: "",
     // true for active
     status: true,
-    // 0 for lead
-    role: 0,
+    // 1 for contact
+    role: 1,
     // 0 for new
     leadStatus: 0,
     errors: {},
@@ -56,8 +56,8 @@ class AddLead extends Component {
       leadStatus
     } = this.state;
 
-    // Create new lead
-    const newLead = {
+    // Create new contact
+    const newContact = {
       organization,
       name,
       email,
@@ -72,7 +72,7 @@ class AddLead extends Component {
       leadStatus
     };
 
-    this.props.addLead(newLead, this.props.history);
+    this.props.addContact(newContact, this.props.history);
   }
 
   render() {
@@ -97,7 +97,7 @@ class AddLead extends Component {
             <div className="col-sm-12">
               <div className="card">
                 <div className="card-body">
-                  <h4 className="card-title text-info">ADD LEAD</h4>
+                  <h4 className="card-title text-info">ADD CONTACT</h4>
                   <form onSubmit={this.onSubmit.bind(this)}>
                     <div className="row">
                       <div className="form-group col-sm-6">
@@ -221,5 +221,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getOrganizations, addLead }
-)(withRouter(AddLead));
+  { getOrganizations, addContact }
+)(withRouter(AddContact));

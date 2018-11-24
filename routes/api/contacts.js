@@ -3,10 +3,10 @@ const router = express.Router();
 const _ = require("lodash");
 
 const LEAD = 0;
+const CONTACT = 1;
 
 // Model
 const Contact = require("../../models/Contact");
-
 // Middleware
 const auth = require("../../middleware/auth");
 // Validation
@@ -59,7 +59,7 @@ router.post("/", auth, (req, res) => {
 // @access Private
 router.get("/contacts/:id", auth, (req, res) => {
   const id = req.params.id;
-  Contact.findOne({ _id: id, company: req.user.id })
+  Contact.findOne({ _id: id, company: req.user.id, role: CONTACT })
     .populate("organization", "name")
     .then(org => {
       res.json(org);
@@ -88,7 +88,7 @@ router.get("/leads/:id", auth, (req, res) => {
 // @des    Get all contacts for a company
 // @access Private
 router.get("/contacts/", auth, (req, res) => {
-  Contact.find({ company: req.user.id })
+  Contact.find({ company: req.user.id, role: CONTACT })
     .populate("organization", "name")
     .then(contacts => {
       res.json(contacts);

@@ -48,7 +48,7 @@ const ContactSchema = Schema({
     required: true
   },
   role: {
-    type: Boolean,
+    type: Number,
     default: 0,
     required: true
   },

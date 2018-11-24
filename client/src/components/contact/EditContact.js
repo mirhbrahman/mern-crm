@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../common/TextFieldGroup";
-import { addLead } from "../../actions/leadActions";
+import { getContact, updateContact } from "../../actions/contactActions";
 import { getOrganizations } from "../../actions/organizationActions";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 
-class AddLead extends Component {
+class EditContact extends Component {
   state = {
     organization: "",
     name: "",
@@ -17,22 +17,36 @@ class AddLead extends Component {
     department: "",
     primaryAddress: "",
     secondaryAddress: "",
-    // true for active
-    status: true,
-    // 0 for lead
-    role: 0,
-    // 0 for new
-    leadStatus: 0,
+    status: "",
+    role: "",
     errors: {},
     orgs: null
   };
 
   componentDidMount() {
+    const { id } = this.props.match.params;
     this.props.getOrganizations();
+    this.props.getContact(id);
   }
 
   componentWillReceiveProps(nextProps, nextState) {
     this.setState({ errors: nextProps.errors, orgs: nextProps.orgs.orgs });
+    if (nextProps.contacts.contact) {
+      const { contact } = nextProps.contacts;
+      this.setState({
+        organization: contact.organization._id,
+        name: contact.name,
+        email: contact.email,
+        phone: contact.phone,
+        website: contact.website,
+        title: contact.title,
+        department: contact.department,
+        primaryAddress: contact.primaryAddress,
+        secondaryAddress: contact.secondaryAddress,
+        status: contact.status,
+        role: contact.role
+      });
+    }
   }
 
   onChange(e) {
@@ -52,12 +66,11 @@ class AddLead extends Component {
       primaryAddress,
       secondaryAddress,
       status,
-      role,
-      leadStatus
+      role
     } = this.state;
 
-    // Create new lead
-    const newLead = {
+    // Create new contact
+    const updatecontact = {
       organization,
       name,
       email,
@@ -68,11 +81,12 @@ class AddLead extends Component {
       primaryAddress,
       secondaryAddress,
       status,
-      role,
-      leadStatus
+      role
     };
 
-    this.props.addLead(newLead, this.props.history);
+    const { id } = this.props.match.params;
+
+    this.props.updateContact(id, updatecontact, this.props.history);
   }
 
   render() {
@@ -97,7 +111,7 @@ class AddLead extends Component {
             <div className="col-sm-12">
               <div className="card">
                 <div className="card-body">
-                  <h4 className="card-title text-info">ADD LEAD</h4>
+                  <h4 className="card-title text-info">UPDATE CONTACT</h4>
                   <form onSubmit={this.onSubmit.bind(this)}>
                     <div className="row">
                       <div className="form-group col-sm-6">
@@ -142,7 +156,11 @@ class AddLead extends Component {
 
                           {orgs &&
                             orgs.map(org => (
-                              <option key={org._id} value={org._id}>
+                              <option
+                                key={org._id}
+                                value={org._id}
+                                selected={org._id === organization}
+                              >
                                 {org.name}
                               </option>
                             ))}
@@ -199,7 +217,7 @@ class AddLead extends Component {
 
                       <div className="col-sm-12">
                         <button type="submit" className="btn btn-primary">
-                          Submit
+                          Update
                         </button>
                       </div>
                     </div>
@@ -216,10 +234,11 @@ class AddLead extends Component {
 
 const mapStateToProps = state => ({
   orgs: state.orgs,
+  contacts: state.contacts,
   errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { getOrganizations, addLead }
-)(withRouter(AddLead));
+  { getContact, getOrganizations, updateContact }
+)(withRouter(EditContact));

@@ -2,37 +2,36 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import classnames from "classnames";
-import isEmpty from "../../validation/is-empty";
 import Spinner from "../common/Spinner";
-import { getLeads, deleteLead } from "../../actions/leadActions";
+import { getContacts, deleteContact } from "../../actions/contactActions";
 
-class Lead extends Component {
+class Contact extends Component {
   state = {
     currently_selected_id: null,
-    current_leads: null
+    current_contacts: null
   };
   componentDidMount() {
-    this.props.getLeads();
+    this.props.getContacts();
   }
 
   componentWillReceiveProps(nextProps, nextState) {
-    this.setState({ leads: nextProps.leads });
+    this.setState({ contacts: nextProps.contacts });
   }
 
   onRowSelect(id, e) {
     this.setState({ currently_selected_id: id });
-    const { leads } = this.props.leads;
-    const c_leads = leads.filter(org => org._id === id);
-    this.setState({ current_leads: c_leads[0] });
+    const { contacts } = this.props.contacts;
+    const c_contacts = contacts.filter(org => org._id === id);
+    this.setState({ current_contacts: c_contacts[0] });
   }
 
   onDeleteCick(id, e) {
-    this.props.deleteLead(id, this.props.history);
-    this.setState({ current_leads: null });
+    this.props.deleteContact(id, this.props.history);
+    this.setState({ current_contacts: null });
   }
 
   render() {
-    const { loading, leads } = this.props.leads;
+    const { loading, contacts } = this.props.contacts;
 
     let content;
     // Load spinner
@@ -40,11 +39,11 @@ class Lead extends Component {
       content = <Spinner />;
     } else {
       // Main content
-      if (leads === null || isEmpty(leads)) {
+      if (contacts === null) {
         content = (
           <div className="col-sm-12 float-left padding-0">
             <div className="col-sm-12 text-center text-danger" role="alert">
-              <p>You have no Lead</p> <br />
+              <p>You have no contact</p> <br />
             </div>
           </div>
         );
@@ -59,7 +58,7 @@ class Lead extends Component {
               </tr>
             </thead>
             <tbody>
-              {leads.map(org => (
+              {contacts.map(org => (
                 <tr
                   className={classnames("test ", {
                     "alert alert-info":
@@ -82,79 +81,84 @@ class Lead extends Component {
 
     // Right side panel content
     let right_content;
-    if (this.state.current_leads === null) {
+    if (this.state.current_contacts === null) {
       right_content = (
         <div>
           <br />
           <p className="text-primary">
-            <i className="fa fa-arrow-left" /> Please select a lead to see info
+            <i className="fa fa-arrow-left" /> Please select a contact to see
+            info
           </p>
           <br />
         </div>
       );
     } else {
-      const leads = this.state.current_leads;
+      const contacts = this.state.current_contacts;
       right_content = (
         <div>
-          <h4 className="card-title">{leads.name}</h4>
-          <h6 className="card-subtitle mb-2 text-muted">{leads.email}</h6>
+          <h4 className="card-title">{contacts.name}</h4>
+          <h6 className="card-subtitle mb-2 text-muted">{contacts.email}</h6>
 
           <hr />
           <div className="col-sm-12 row">
             <div className="col-sm-3 padding-0">
               <span className="text-primary">Title</span>
             </div>
-            <div className="col-sm-9 padding-0">{leads.title}</div>
+            <div className="col-sm-9 padding-0">{contacts.title}</div>
           </div>
           <div className="col-sm-12 row">
             <div className="col-sm-3 padding-0">
               <span className="text-primary">Phone</span>
             </div>
-            <div className="col-sm-9 padding-0">{leads.phone}</div>
+            <div className="col-sm-9 padding-0">{contacts.phone}</div>
           </div>
           <div className="col-sm-12 row">
             <div className="col-sm-3 padding-0">
               <span className="text-primary">Website</span>
             </div>
-            <div className="col-sm-9 padding-0">{leads.website}</div>
+            <div className="col-sm-9 padding-0">{contacts.website}</div>
           </div>
 
           <div className="col-sm-12 row">
             <div className="col-sm-3 padding-0">
               <span className="text-primary">Department</span>
             </div>
-            <div className="col-sm-9 padding-0">{leads.department}</div>
+            <div className="col-sm-9 padding-0">{contacts.department}</div>
           </div>
           <div className="col-sm-12 row">
             <div className="col-sm-3 padding-0">
               <span className="text-primary">Organization</span>
             </div>
-            <div className="col-sm-9 padding-0">{leads.organization.name}</div>
+            <div className="col-sm-9 padding-0">
+              {contacts.organization.name}
+            </div>
           </div>
           <div className="col-sm-12 row">
             <div className="col-sm-3 padding-0">
               <span className="text-primary">Primary Address</span>
             </div>
-            <div className="col-sm-9 padding-0">{leads.primaryAddress}</div>
+            <div className="col-sm-9 padding-0">{contacts.primaryAddress}</div>
           </div>
 
           <div className="col-sm-12 row">
             <div className="col-sm-3 padding-0">
               <span className="text-primary">Secondary Address</span>
             </div>
-            <div className="col-sm-9 padding-0">{leads.secondaryAddress}</div>
+            <div className="col-sm-9 padding-0">
+              {contacts.secondaryAddress}
+            </div>
           </div>
 
           <div className="col-sm-12 text-center">
             <Link
               className="btn btn-info btn-sm"
-              to={`/edit-leads/${leads._id}`}
+              to={`/edit-contacts/${contacts._id}`}
             >
               Edit
             </Link>
 
             <button
-              onClick={this.onDeleteCick.bind(this, leads._id)}
+              onClick={this.onDeleteCick.bind(this, contacts._id)}
               className="btn btn-danger btn-sm"
             >
               Delete
@@ -169,13 +173,13 @@ class Lead extends Component {
           <div className="col-sm-6">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title text-info pull-left">LEADS</h4>
+                <h4 className="card-title text-info pull-left">CONTACTS</h4>
                 <h4 className="card-title text-info pull-right">
                   <Link
                     className="btn btn-info btn-sm margin-0"
-                    to="/add-Leads"
+                    to="/add-contacts"
                   >
-                    Add Lead
+                    Add Contact
                   </Link>
                 </h4>
                 <br />
@@ -187,7 +191,7 @@ class Lead extends Component {
           <div className="col-sm-6">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-title text-info">LEAD INFO</h4>
+                <h4 className="card-title text-info">CONTACT INFO</h4>
                 {right_content}
               </div>
             </div>
@@ -199,11 +203,11 @@ class Lead extends Component {
 }
 
 const mapStateToProps = state => ({
-  leads: state.leads,
+  contacts: state.contacts,
   errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { getLeads, deleteLead }
-)(withRouter(Lead));
+  { getContacts, deleteContact }
+)(withRouter(Contact));
