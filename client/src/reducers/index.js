@@ -5,6 +5,7 @@ import profileReducer from "./profileReducer";
 import organizationReducer from "./organizationReducer";
 import leadReducer from "./leadReducer";
 import contactReducer from "./contactReducer";
+import opportunityReducer from "./opportunityReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   orgs: organizationReducer,
   leads: leadReducer,
   contacts: contactReducer,
+  opportunities: opportunityReducer,
   errors: errorReducer
 });

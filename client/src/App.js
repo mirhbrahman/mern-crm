@@ -24,6 +24,9 @@ import EditLead from "./components/lead/EditLead";
 import Contact from "./components/contact/Contact";
 import AddContact from "./components/contact/AddContact";
 import EditContact from "./components/contact/EditContact";
+import Opportunity from "./components/opportunity/Opportunity";
+import AddOpportunity from "./components/opportunity/AddOpportunity";
+import EditOpportunity from "./components/opportunity/EditOpportunity";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -106,6 +109,27 @@ class App extends Component {
                   exact
                   path="/edit-contacts/:id"
                   component={EditContact}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/opportunities"
+                  component={Opportunity}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-opportunities"
+                  component={AddOpportunity}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/edit-opportunities/:id"
+                  component={EditOpportunity}
                 />
               </Switch>
             </div>
