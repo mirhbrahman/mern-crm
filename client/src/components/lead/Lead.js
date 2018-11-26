@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import isEmpty from "../../validation/is-empty";
 import Spinner from "../common/Spinner";
-import { getLeads, deleteLead } from "../../actions/leadActions";
+import { getLeads, deleteLead, makeContact } from "../../actions/leadActions";
 
 class Lead extends Component {
   state = {
@@ -28,6 +28,11 @@ class Lead extends Component {
 
   onDeleteCick(id, e) {
     this.props.deleteLead(id, this.props.history);
+    this.setState({ current_leads: null });
+  }
+
+  onMakeContactClick(id, e) {
+    this.props.makeContact(id, this.props.history);
     this.setState({ current_leads: null });
   }
 
@@ -96,6 +101,29 @@ class Lead extends Component {
       const leads = this.state.current_leads;
       right_content = (
         <div>
+          <p className="pull-right">
+            <button
+              className="btn btn-primary btn-sm"
+              type="button"
+              data-toggle="collapse"
+              data-target="#collapseExample"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >
+              <i className="fa fa-ellipsis-v" aria-hidden="true" />
+            </button>
+          </p>
+          <div className="collapse pull-right" id="collapseExample">
+            <div className="card card-body padding-0 margin-0">
+              <button
+                onClick={this.onMakeContactClick.bind(this, leads._id)}
+                className="btn btn-sm btn-success"
+              >
+                Make Contact
+              </button>
+            </div>
+          </div>
+
           <h4 className="card-title">{leads.name}</h4>
           <h6 className="card-subtitle mb-2 text-muted">{leads.email}</h6>
 
@@ -188,6 +216,7 @@ class Lead extends Component {
             <div className="card">
               <div className="card-body">
                 <h4 className="card-title text-info">LEAD INFO</h4>
+
                 {right_content}
               </div>
             </div>
@@ -205,5 +234,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getLeads, deleteLead }
+  { getLeads, deleteLead, makeContact }
 )(withRouter(Lead));

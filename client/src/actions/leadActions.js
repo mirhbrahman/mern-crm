@@ -5,6 +5,7 @@ import {
   GET_ERRORS,
   DELETE_LEAD,
   UPDATE_LEAD,
+  MAKE_CONTACT,
   LEAD_LOADING
 } from "./types";
 
@@ -71,6 +72,25 @@ export const updateLead = (id, leadData, history) => dispatch => {
     .then(res => {
       dispatch({
         type: UPDATE_LEAD,
+        payload: res.data
+      });
+      history.push("/leads");
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Make Lead to contact
+export const makeContact = (id, history) => dispatch => {
+  axios
+    .put(`/api/contacts/make-contact/${id}`)
+    .then(res => {
+      dispatch({
+        type: MAKE_CONTACT,
         payload: res.data
       });
       history.push("/leads");

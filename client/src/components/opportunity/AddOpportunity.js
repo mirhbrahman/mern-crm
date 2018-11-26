@@ -156,6 +156,7 @@ class AddOpportunity extends Component {
                           error={errors.startDate}
                         />
                       </div>
+
                       <div className="form-group col-sm-6">
                         <TextFieldGroup
                           type="date"

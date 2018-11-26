@@ -43,5 +43,33 @@
       src="assets/js/now-ui-kit.js?v=1.2.0"
       type="text/javascript"
     ></script>
+    <!--
+      <script
+        src="assets/js/plugins/bootstrap-datepicker.js"
+        type="text/javascript"
+      ></script>
+      <script>
+        $(".date-picker").each(function() {
+          $(this)
+            .datepicker({
+              templates: {
+                leftArrow: '<i class="now-ui-icons arrows-1_minimal-left"></i>',
+                rightArrow: '<i class="now-ui-icons arrows-1_minimal-right"></i>'
+              }
+            })
+            .on("show", function() {
+              $(".datepicker").addClass("open");
+
+              datepicker_color = $(this).data("datepicker-color");
+              if (datepicker_color.length != 0) {
+                $(".datepicker").addClass("datepicker-" + datepicker_color + "");
+              }
+            })
+            .on("hide", function() {
+              $(".datepicker").removeClass("open");
+            });
+        });
+      </script>
+    -->
   </body>
 </html>

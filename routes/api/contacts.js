@@ -54,7 +54,7 @@ router.post("/", auth, (req, res) => {
     });
 });
 
-// @route  GET /api/users/contacts/contacts/:id
+// @route  GET /api/contacts/contacts/:id
 // @des    Get contact by id
 // @access Private
 router.get("/contacts/:id", auth, (req, res) => {
@@ -69,7 +69,7 @@ router.get("/contacts/:id", auth, (req, res) => {
     });
 });
 
-// @route  GET /api/users/contacts/leads/:id
+// @route  GET /api/contacts/leads/:id
 // @des    Get lead by id
 // @access Private
 router.get("/leads/:id", auth, (req, res) => {
@@ -84,7 +84,7 @@ router.get("/leads/:id", auth, (req, res) => {
     });
 });
 
-// @route  GET /api/users/contacts/contacts
+// @route  GET /api/contacts/contacts
 // @des    Get all contacts for a company
 // @access Private
 router.get("/contacts/", auth, (req, res) => {
@@ -98,7 +98,7 @@ router.get("/contacts/", auth, (req, res) => {
     });
 });
 
-// @route  GET /api/users/contacts/leads
+// @route  GET /api/contacts/leads
 // @des    Get all leads for a company
 // @access Private
 router.get("/leads/", auth, (req, res) => {
@@ -112,7 +112,7 @@ router.get("/leads/", auth, (req, res) => {
     });
 });
 
-// @route  PUT /api/users/contacts/:id
+// @route  PUT /api/contacts/:id
 // @des    Update contact by id
 // @access Private
 router.put("/:id", auth, (req, res) => {
@@ -148,14 +148,14 @@ router.put("/:id", auth, (req, res) => {
   if (req.body.leadStatus) updateContact.leadStatus = req.body.leadStatus;
 
   Contact.findOne({ _id: id, company: req.user.id })
-    .then(org => {
-      if (org) {
-        org.set(updateContact);
+    .then(contact => {
+      if (contact) {
+        contact.set(updateContact);
 
-        org
+        contact
           .save()
-          .then(org => {
-            return res.json(org);
+          .then(contact => {
+            return res.json(contact);
           })
           .catch(err => {
             if (err) throw err;
@@ -169,7 +169,34 @@ router.put("/:id", auth, (req, res) => {
     });
 });
 
-// @route  DELETE /api/users/contacts/:id
+// @route  PUT /api/contacts/make-contact:id
+// @des    Update lead to cantact
+// @access Private
+router.put("/make-contact/:id", auth, (req, res) => {
+  const id = req.params.id;
+
+  Contact.findOne({ _id: id, company: req.user.id, role: LEAD })
+    .then(contact => {
+      if (contact) {
+        contact.set({ role: CONTACT });
+        contact
+          .save()
+          .then(contact => {
+            return res.json(contact);
+          })
+          .catch(err => {
+            if (err) throw err;
+          });
+      } else {
+        return res.json({ errors: "Lead not found" });
+      }
+    })
+    .catch(err => {
+      res.status(404).json({ errors: "Lead not found" });
+    });
+});
+
+// @route  DELETE /api/contacts/:id
 // @des    Delete contact by id
 // @access Private
 router.delete("/:id", auth, (req, res) => {

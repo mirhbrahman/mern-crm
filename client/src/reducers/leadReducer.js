@@ -3,7 +3,8 @@ import {
   GET_LEADS,
   GET_LEAD,
   UPDATE_LEAD,
-  DELETE_LEAD
+  DELETE_LEAD,
+  MAKE_CONTACT
 } from "../actions/types";
 
 const initialState = {
@@ -37,6 +38,12 @@ export default function(state = initialState, action) {
           lead._id === action.payload._id ? (lead = action.payload) : lead
         ),
         lead: null
+      };
+
+    case MAKE_CONTACT:
+      return {
+        ...state,
+        leads: state.leads.filter(lead => lead._id !== action.payload._id)
       };
 
     case DELETE_LEAD:

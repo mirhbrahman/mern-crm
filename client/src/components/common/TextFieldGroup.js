@@ -8,13 +8,14 @@ const TextFieldGroup = ({
   placeholder,
   value,
   onChange,
+  className,
   error
 }) => {
   return (
     <div>
       <label htmlFor={name}>{label}</label>
       <input
-        className={classnames("form-control", {
+        className={classnames(className, {
           "is-invalid": error
         })}
         type={type}
@@ -29,7 +30,8 @@ const TextFieldGroup = ({
 };
 
 TextFieldGroup.defaultProps = {
-  type: "text"
+  type: "text",
+  className: "form-control"
 };
 
 export default TextFieldGroup;
