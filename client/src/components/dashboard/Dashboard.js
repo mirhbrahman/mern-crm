@@ -1,19 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getProfile } from "../../actions/profileActions";
+import { getProfile, countRecord } from "../../actions/profileActions";
 import Spinner from "../common/Spinner";
 import ProfileInfo from "../profile/ProfileInfo";
 
 class Dashboard extends Component {
   state = {
-    profile: {}
+    profile: {},
+    countRecord: {}
   };
   componentDidMount() {
     this.props.getProfile();
+    this.props.countRecord();
   }
 
   componentWillReceiveProps(nextProps, nextState) {
     this.setState({ profile: nextProps.profile.profile });
+    this.setState({ countRecord: nextProps.profile.countRecord });
   }
 
   render() {
@@ -22,7 +25,12 @@ class Dashboard extends Component {
     if (profile === null && loading === true) {
       dashContent = <Spinner />;
     } else {
-      dashContent = <ProfileInfo profile={this.state.profile} />;
+      dashContent = (
+        <ProfileInfo
+          profile={this.state.profile}
+          countRecord={this.state.countRecord}
+        />
+      );
     }
     return <div>{dashContent}</div>;
   }
@@ -35,5 +43,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProfile }
+  { getProfile, countRecord }
 )(Dashboard);

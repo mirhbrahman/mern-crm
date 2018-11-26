@@ -55,11 +55,11 @@ class Header extends Component {
                     <p>Opportunity</p>
                   </Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className="nav-link" to="/proposals">
                     <p>Proposal</p>
                   </Link>
-                </li>
+                </li> */}
                 <li className="nav-item dropdown">
                   <Link
                     to="#"

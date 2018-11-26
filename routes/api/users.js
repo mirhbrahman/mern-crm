@@ -11,6 +11,8 @@ const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 // Model
 const User = require("../../models/User");
+const Contact = require("../../models/Contact");
+const Opportunity = require("../../models/Opportunity");
 // Middleware
 const auth = require("../../middleware/auth");
 
@@ -107,6 +109,23 @@ router.get("/current", auth, (req, res) => {
   return res.json(
     _.pick(req.user, ["id", "name", "email", "status", "userLevel"])
   );
+});
+
+// @route  GET /api/users/count-record
+// @des    Count info
+// @access Private
+router.get("/count-record", auth, (req, res) => {
+  let countRecord = {};
+  Contact.countDocuments({ company: req.user._id, role: 0 }).then(count => {
+    countRecord.lead = count;
+    Contact.count({ company: req.user._id, role: 1 }).then(count => {
+      countRecord.contact = count;
+      Opportunity.count({ company: req.user._id }).then(count => {
+        countRecord.opportunity = count;
+        res.json(countRecord);
+      });
+    });
+  });
 });
 
 module.exports = router;

@@ -1,11 +1,13 @@
 import {
   GET_PROFILE,
   PROFILE_LOADING,
+  COUNT_RECORD,
   CLEAR_CURRENT_PROFILE
 } from "../actions/types";
 
 const initialState = {
   profile: null,
+  countRecord: {},
   loading: false
 };
 
@@ -20,6 +22,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         profile: action.payload,
+        loading: false
+      };
+    case COUNT_RECORD:
+      return {
+        ...state,
+        countRecord: action.payload,
         loading: false
       };
 

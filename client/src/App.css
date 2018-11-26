@@ -98,10 +98,10 @@ h4,
   border: medium none;
 }
 .content-count {
-  padding: 20px;
+  padding: 2px;
   text-align: center;
   overflow: hidden;
-  width: 25%;
+  width: 33.33%;
   float: left;
 }
 

@@ -3,6 +3,7 @@ import {
   GET_ERRORS,
   GET_PROFILE,
   PROFILE_LOADING,
+  COUNT_RECORD,
   CLEAR_CURRENT_PROFILE
 } from "./types";
 // Get current user profile
@@ -13,6 +14,24 @@ export const getProfile = () => dispatch => {
     .then(res => {
       dispatch({
         type: GET_PROFILE,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Count record
+export const countRecord = () => dispatch => {
+  axios
+    .get("/api/users/count-record")
+    .then(res => {
+      dispatch({
+        type: COUNT_RECORD,
         payload: res.data
       });
     })
