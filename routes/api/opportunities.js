@@ -23,7 +23,7 @@ router.post("/", auth, (req, res) => {
       "title",
       "amount",
       "startDate",
-      "endDate",
+      "closeDate",
       "probability",
       "stage",
       "status",
@@ -62,6 +62,22 @@ router.get("/:id", auth, (req, res) => {
 router.get("/", auth, (req, res) => {
   Opportunity.find({ company: req.user.id })
     .populate("contact", ["name", "email"])
+    .sort({ created_at: 1 })
+    .then(opportunities => {
+      res.json(opportunities);
+    })
+    .catch(err => {
+      res.status(404).json({ errors: "Opportunities not found" });
+    });
+});
+
+// @route  GET /api/opportunities/contact/:id
+// @des    Get all opportunities for a contact
+// @access Private
+router.get("/contact/:id", auth, (req, res) => {
+  const id = req.params.id;
+  Opportunity.find({ company: req.user.id, contact: id })
+    .sort({ created_at: 1 })
     .then(opportunities => {
       res.json(opportunities);
     })

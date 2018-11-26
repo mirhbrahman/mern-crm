@@ -5,7 +5,8 @@ import {
   GET_ERRORS,
   DELETE_OPPORTUNITY,
   UPDATE_OPPORTUNITY,
-  OPPORTUNITY_LOADING
+  OPPORTUNITY_LOADING,
+  GET_CONTACT_OPPORTUNITIES
 } from "./types";
 
 // Get opportunities
@@ -41,6 +42,24 @@ export const getOpportunity = id => dispatch => {
     .then(res => {
       dispatch({
         type: GET_OPPORTUNITY,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Get opportunities
+export const getContactOpportunities = id => dispatch => {
+  axios
+    .get(`/api/opportunities/contact/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_CONTACT_OPPORTUNITIES,
         payload: res.data
       });
     })

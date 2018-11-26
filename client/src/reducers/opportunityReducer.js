@@ -1,14 +1,17 @@
+import isEmpty from "../validation/is-empty";
 import {
   OPPORTUNITY_LOADING,
   GET_OPPORTUNITIES,
   GET_OPPORTUNITY,
   UPDATE_OPPORTUNITY,
-  DELETE_OPPORTUNITY
+  DELETE_OPPORTUNITY,
+  GET_CONTACT_OPPORTUNITIES
 } from "../actions/types";
 
 const initialState = {
   opportunities: null,
   opportunity: null,
+  contactOpportunities: null,
   loading: false
 };
 
@@ -29,6 +32,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         opportunity: action.payload
+      };
+    case GET_CONTACT_OPPORTUNITIES:
+      return {
+        ...state,
+        contactOpportunities: isEmpty(action.payload) ? null : action.payload
       };
     case UPDATE_OPPORTUNITY:
       return {

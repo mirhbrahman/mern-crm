@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import classnames from "classnames";
+import { dateFormate } from "../../utils/dateFormate";
 import Spinner from "../common/Spinner";
 import { getContacts, deleteContact } from "../../actions/contactActions";
+import { getContactOpportunities } from "../../actions/opportunityActions";
 
 class Contact extends Component {
   state = {
@@ -23,6 +25,7 @@ class Contact extends Component {
     const { contacts } = this.props.contacts;
     const c_contacts = contacts.filter(org => org._id === id);
     this.setState({ current_contacts: c_contacts[0] });
+    this.props.getContactOpportunities(id);
   }
 
   onDeleteCick(id, e) {
@@ -94,6 +97,7 @@ class Contact extends Component {
       );
     } else {
       const contacts = this.state.current_contacts;
+      const { contactOpportunities } = this.props.opportunities;
       right_content = (
         <div>
           <h4 className="card-title">{contacts.name}</h4>
@@ -164,6 +168,36 @@ class Contact extends Component {
               Delete
             </button>
           </div>
+          <hr />
+          <h4 className="card-title text-info">OPPORTUNITIES</h4>
+          {contactOpportunities === null ? (
+            <h4 className="text-primary">This contact has no oppertunities</h4>
+          ) : (
+            <div>
+              <table className="table" style={{ fontSize: 11 }}>
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Probability</th>
+                    <th scope="col">Start</th>
+                    <th scope="col">Close</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {contactOpportunities.map(oppr => (
+                    <tr key={oppr._id}>
+                      <td>{oppr.title}</td>
+                      <td>{oppr.amount}</td>
+                      <td>{oppr.probability} %</td>
+                      <td>{dateFormate(oppr.startDate)}</td>
+                      <td>{dateFormate(oppr.closeDate)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       );
     }
@@ -203,11 +237,12 @@ class Contact extends Component {
 }
 
 const mapStateToProps = state => ({
+  opportunities: state.opportunities,
   contacts: state.contacts,
   errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { getContacts, deleteContact }
+  { getContacts, getContactOpportunities, deleteContact }
 )(withRouter(Contact));
